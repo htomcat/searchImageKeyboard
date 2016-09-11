@@ -15,6 +15,8 @@ class KeyboardViewController: UIInputViewController {
     override func updateViewConstraints() {
         super.updateViewConstraints()
         
+        let constraint = NSLayoutConstraint(item: self.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 300)
+        self.view?.addConstraint(constraint)
         // Add custom view sizing constraints here
     }
     
@@ -24,7 +26,8 @@ class KeyboardViewController: UIInputViewController {
         // Perform custom UI setup here
         self.nextKeyboardButton = UIButton(type: .system)
         
-        self.nextKeyboardButton.setTitle(NSLocalizedString("Next Keyboard", comment: "Title for 'Next Keyboard' button"), for: [])
+        //self.nextKeyboardButton.setTitle(NSLocalizedString("Next Keyboard", comment: "Title for 'Next Keyboard' button"), for: [])
+        self.nextKeyboardButton.setTitle("Back", for: .normal)
         self.nextKeyboardButton.sizeToFit()
         self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -32,8 +35,22 @@ class KeyboardViewController: UIInputViewController {
         
         self.view.addSubview(self.nextKeyboardButton)
         
-        self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.nextKeyboardButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
+        guard let imageData = UserDefaults.init(suiteName: "group.userImage")?.data(forKey: "SampleImage") else {
+            return
+        }
+        
+        guard let data = UIImage(data: imageData) else {
+            return
+        }
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        imageView.image = data
+        
+        self.inputView?.addSubview(imageView)
+        
     }
     
     override func didReceiveMemoryWarning() {
